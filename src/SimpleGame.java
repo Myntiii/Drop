@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -24,7 +24,7 @@ public class SimpleGame implements ApplicationListener {
     FitViewport viewport;
     Sprite bucketSprite;
     Vector2 touchPos;
-    Array<Sprite> dropSprites;
+    ArrayList<Sprite> dropSprites;
     float dropTimer;
     Rectangle bucketRectangle;
     Rectangle dropRectangle;
@@ -46,7 +46,7 @@ public class SimpleGame implements ApplicationListener {
         
         touchPos = new Vector2();
         
-        dropSprites = new Array<>();
+        dropSprites = new ArrayList<>();
         
         bucketRectangle = new Rectangle();
         dropRectangle = new Rectangle();
@@ -96,7 +96,7 @@ public class SimpleGame implements ApplicationListener {
         float delta = Gdx.graphics.getDeltaTime();
         bucketRectangle.set(bucketSprite.getX(), bucketSprite.getY(), bucketWidth, bucketHeight);
 
-        for (int i = dropSprites.size - 1; i >= 0; i--) {
+        for (int i = dropSprites.size() - 1; i >= 0; i--) {
             Sprite dropSprite = dropSprites.get(i);
             float dropWidth = dropSprite.getWidth();
             float dropHeight = dropSprite.getHeight();
@@ -104,9 +104,9 @@ public class SimpleGame implements ApplicationListener {
             dropSprite.translateY(-2f * delta);
             dropRectangle.set(dropSprite.getX(), dropSprite.getY(), dropWidth, dropHeight);
 
-            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+            if (dropSprite.getY() < -dropHeight) dropSprites.remove(i);
             else if (bucketRectangle.overlaps(dropRectangle)) {
-                dropSprites.removeIndex(i);
+                dropSprites.remove(i);
                 dropSound.play();
             }
         }
